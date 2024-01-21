@@ -1,0 +1,397 @@
+---
+title: "Belegarbeit"
+author: "Leander Engel - 580552  <br>HTW Berlin - Analyse medizinischer Daten (FB4)<br>Aufischt: Tatiana Ermakova"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    toc: true
+    toc_depth: 3
+    number_sections: false
+    smoth_scroll: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+library(dplyr)
+```
+
+## Abstract
+
+In dieser Belegarbeit wird der Einfluss von körperlicher Aktivität und BMI-Kategorie auf die Schlafqualität und -dauer untersucht. Der zugrunde liegende Datensatz umfasst umfassende Daten zu Schlafgewohnheiten, körperlicher Aktivität, BMI-Kategorien und weiteren gesundheitsbezogenen Variablen. Durch eine Reihe von statistischen Analysen wurden die Beziehungen zwischen diesen Faktoren eingehend betrachtet. Die Ergebnisse zeigen signifikante Zusammenhänge: Eine höhere körperliche Aktivität korreliert positiv mit längerer Schlafdauer und besserer Schlafqualität, während ein höherer BMI negativ mit diesen Schlafvariablen assoziiert ist. Darüber hinaus weisen die Daten darauf hin, dass unterschiedliche Niveaus der körperlichen Aktivität und verschiedene BMI-Kategorien mit signifikant unterschiedlichen Schlafqualitäten und -dauern verbunden sind. Diese Erkenntnisse bieten wertvolle Einsichten in die Bedeutung eines gesunden Lebensstils für die Schlafqualität und könnte theoretisch als Grundlage für weitere Forschungen in diesem Bereich dienen. Sie unterstreichen auch die Notwendigkeit, sowohl körperliche Aktivität als auch Gewichtsmanagement in Betracht zu ziehen, wenn es um die Verbesserung der Schlafgesundheit geht.
+
+## Einleitung
+
+Die Bedeutung von Schlaf für die menschliche Gesundheit und das Wohlbefinden ist unbestritten. Guter Schlaf trägt zur Erhaltung körperlicher Gesundheit, emotionaler Ausgeglichenheit und kognitiver Leistungsfähigkeit bei. In der heutigen schnelllebigen Gesellschaft, in der Schlafstörungen zunehmend verbreitet sind, gewinnt das Verständnis der verschiedenen Faktoren, die die Schlafqualität beeinflussen, an Bedeutung. In diesem Kontext rücken zwei Aspekte besonders in den Fokus: körperliche Aktivität und der Body Mass Index (BMI).
+<br><br>
+Körperliche Aktivität ist bekannt dafür, dass sie eine Vielzahl von Gesundheitsvorteilen bietet, einschließlich der Verbesserung der Schlafqualität. Gleichzeitig ist bekannt, dass ein ungesunder BMI, der Übergewicht oder Untergewicht anzeigt, mit einer Reihe von Schlafproblemen, einschließlich Schlafapnoe und Insomnie, verbunden sein kann. Obwohl beide Faktoren einzeln untersucht wurden, bleibt die Frage offen, wie körperliche Aktivität und BMI gemeinsam die Schlafqualität und -dauer beeinflussen.
+<br><br>
+Die zentrale Frage dieser Arbeit ist daher: "Wie beeinflussen körperliche Aktivität und BMI-Kategorie die Schlafqualität und -dauer?" Diese Fragestellung ist aus mehreren Gründen von großer Bedeutung. Erstens kann das Verständnis der Wechselwirkungen zwischen körperlicher Aktivität, Körpergewicht und Schlaf dazu beitragen, effektivere Strategien zur Verbesserung der Schlafgesundheit zu entwickeln. Zweitens können die Erkenntnisse dazu beitragen, spezifische Empfehlungen für verschiedene Bevölkerungsgruppen zu formulieren, insbesondere für Personen, die an Übergewicht oder Schlafstörungen leiden. Schließlich hat die Erforschung dieser Beziehungen das Potenzial, das Wissen über die komplexen Wechselwirkungen zwischen Lebensstilfaktoren und Gesundheit zu erweitern.
+<br><br>
+Durch die Untersuchung dieser Fragestellung strebt diese Arbeit an, einen Beitrag zur aktuellen Forschung im Bereich der Schlafgesundheit zu leisten und die Grundlage für praxisorientierte Empfehlungen im Bereich der öffentlichen Gesundheitsförderung zu schaffen.
+
+## Grundlagenteil
+
+Schlafqualität und -dauer sind essentielle Gesundheitsindikatoren. Die Schlafqualität bezieht sich auf die Erholsamkeit und Störungsfreiheit des Schlafes, während die Schlafdauer die Gesamtzeit des nächtlichen Schlafes misst. Körperliche Aktivität, definiert als jede Skelettmuskelbewegung, die Energie verbraucht, variiert in ihrer Intensität von leicht bis intensiv. Der Body Mass Index (BMI) ist ein Maß für das Körpergewicht, berechnet durch das Körpergewicht in Kilogramm geteilt durch das Quadrat der Körpergröße in Metern, und dient zur Klassifizierung von Gewichtskategorien.
+<br><br>
+**Bisherige Arbeiten zu diesem Thema**<br>
+Bisherige Arbeiten zu diesem Thema zeigen, dass körperliche Aktivität und der Body-Mass-Index (BMI) wichtige Faktoren für die Schlafqualität und -dauer sind. Eine Studie fand heraus, dass bei sechs- bis zehnjährigen Kindern eine höhere körperliche Aktivität zu einer verbesserten Schlafqualität führte, während der Schlaf selbst keinen Einfluss auf die körperliche Aktivität am nächsten Tag hatte. Außerdem wurde eine negative Beziehung zwischen dem BMI und der Schlafdauer festgestellt (Ekstedt et al., 2013). Eine weitere Studie bestätigte, dass kurze Schlafdauer bei Kindern in Quebec unabhängig von Kalorienaufnahme und körperlicher Aktivität mit Übergewicht und Adipositas assoziiert war (Chaput et al., 2011).
+<br><br>
+**„State of the Art“**<br>
+Aktuelle Forschungsergebnisse zeigen, dass Übergewicht und Schlafstörungen sowohl mit endokrinen und metabolischen Veränderungen als auch mit Herz-Kreislauf-Erkrankungen in Verbindung stehen. Eine Studie ergab, dass ein höherer BMI mit kürzerer Gesamtschlafzeit verbunden war und dass sesshaftes Verhalten, insbesondere bei Männern, die Beziehung zwischen BMI und Schlafdauer vermittelte (Carneiro-Barrera et al., 2020). Eine andere Studie unter College-Studenten fand heraus, dass bessere Schlafqualität mit einem niedrigeren BMI assoziiert war, insbesondere bei geringem Aktivitätsniveau (Pilcher et al., 2020).
+
+## Hauptteil
+
+### Quelle und Herkunft der Daten 
+Der Datensatz, der für diese Analyse verwendet wird, stammt von Kaggle und ist speziell auf den Bereich Schlaf, Gesundheit und Lebensstil ausgerichtet. Er umfasst eine Vielzahl von Daten, die von Individuen über verschiedene Aspekte ihres Schlafverhaltens, ihrer körperlichen Aktivität, ihres Stresslevels und weiterer gesundheitsbezogener Faktoren gesammelt wurden. Der Ursprung dieses Datensatzes ist nicht genau spezifiziert, jedoch ist es üblich, dass solche Datensätze von medizinischen Forschungseinrichtungen, Gesundheitsbehörden oder im Rahmen akademischer Studien zusammengestellt werden [Schlaf Datensatz](https://www.kaggle.com/datasets/uom190346a/sleep-health-and-lifestyle-dataset/data). 
+
+### Datensatz erklärung
+Bevor ich die Forschungsfrage anhand des Datensatzes zu beantworten, werde ich erstmal eine allgemeine übersicht über den Datensatz schaffen.
+```{r}
+sleep_data <- read.csv("C:/Users/leand/OneDrive/Desktop/Analyse medizinischer Daten/AnalyseMedizinischerDaten/Sleep_health_and_lifestyle_dataset.csv")
+```
+Erster Blick in die Daten
+```{r}
+head(sleep_data, 5)
+```
+Anzahl Beobachtungen (Reihen) und Variablen (Spalten)
+```{r}
+dim(sleep_data)
+```
+Datentypen der Variablen
+```{r}
+str(sleep_data)
+```
+Zusätzlich auf Nullwerte überprüfen
+```{r}
+colSums(is.na(sleep_data))
+```
+Anzahl einzigartiger Ausprägungen jeder Variable
+```{r}
+sapply(sleep_data, function(x) length(unique(x)))
+```
+### Datensatz bereinigen
+Für unsere Analyse ist eine genaue Datenbereinigung ein wesentlicher Teil. Der Vorgang beinhaltet das Erkennen und Berichtigen von Unstimmigkeiten, das Adressieren fehlender Daten sowie das Gewährleisten der Genauigkeit der Datentypen, um zuverlässige und aussagekräftige Ergebnisse unserer Analyse sicherzustellen.<br> 
+
+Einige Auffälligkeiten können wir schon sofort verbessern:
+
+* ID für jede Beobachtung einzigartig, werden wir für weitere Analysen nicht benötigen
+* Gedoppelte BMI Kategorie 'Normal' und 'Normal Weight' kann zusammengelegt werden
+
+Zur Sicherheit setzen wir die EDA und Transformationen mit einem neuen DataFrame fort, damit wir jederzeit nochmal die Originaldaten hinzuziehen können.
+```{r}
+# Kopie des DataFrames für weitere Analyse und Transformationen
+sleep_health_copy <- sleep_data
+
+# ID Spalte entfernen
+sleep_health_copy <- subset(sleep_health_copy, select = -Person.ID)
+
+# Normal und Normal Weight zusammenlegen
+sleep_health_copy$BMI.Category  <- ifelse(sleep_health_copy$BMI.Category  == "Normal Weight", "Normal", sleep_health_copy$BMI.Category)
+
+# Die ersten Zeilen des DataFrames anzeigen
+head(sleep_health_copy)
+
+```
+Numerische und kategorische Spalten identifizieren, damit wir unterschiedliche Visualisierungen anwenden können.
+```{r}
+# Identifizieren der numerischen Spalten
+numerical_columns <- names(sleep_health_copy)[sapply(sleep_health_copy, is.numeric)]
+
+# Umwandlung in eine Liste (in R ist dies eigentlich schon ein Vektor, der wie eine Liste verwendet werden kann)
+numerical_columns_list <- as.list(numerical_columns)
+
+numerical_columns_list
+```
+
+```{r}
+# Identifizieren der kategorischen Spalten als Faktoren oder Zeichenketten
+categorical_columns <- names(sleep_health_copy)[sapply(sleep_health_copy, function(x) is.factor(x) || is.character(x))]
+
+# Umwandlung in eine Liste
+categorical_columns_list <- as.list(categorical_columns)
+
+categorical_columns_list
+```
+Statistische Werte für jede Variable
+```{r}
+summary(sleep_health_copy)
+```
+### Datensatz visualisieren
+
+Verteilungen der numerischen Variablen visualisieren. 
+```{r}
+# Funktion zum Erstellen von Histogrammen mit benutzerdefinierter Farbe
+plot_histograms_custom_color <- function(sleep_health_copy, bins = 10, color = "lightblue") {
+  numeric_cols <- sleep_health_copy[sapply(sleep_health_copy, is.numeric)]
+  
+  par(mfrow=c(2, 2), mar=c(4, 4, 2, 1))
+
+  for (col in colnames(numeric_cols)) {
+    hist(numeric_cols[[col]], main=col, xlab=col, breaks=bins, col=color)
+  }
+}
+
+plot_histograms_custom_color(sleep_health_copy, bins = 10, color = "lightblue")
+
+```
+Verteilung der kategorischen Variablen in Balkendiagrammen
+```{r}
+# Balkendiagramms für Gender
+gender_counts <- table(sleep_health_copy$Gender)
+barplot(gender_counts, main="Verteilung von Gender", col="#87CEEB", width=1, las=1)
+
+# Balkendiagramm für Berufe
+occupation_counts <- table(sleep_health_copy$Occupation)
+barplot(occupation_counts, main="Verteilung von Occupation", col="#87CEEB", width=2, las=2)
+
+# Balkendiagramms für BMI
+bmi_category_counts <- table(sleep_health_copy$BMI.Category)
+barplot(bmi_category_counts, main="Verteilung von BMI Category", col="#87CEEB", width=1, las=1)
+
+# Balkendiagramm für Sleep Disorder
+sleep_disorder_counts <- table(sleep_health_copy$Sleep.Disorder)
+barplot(sleep_disorder_counts, main="Barchart von Sleep Disorder", col="#87CEEB", width=1, las=1)
+
+```
+Nachdem wir eine umfassende Übersicht über den Datensatz erstellt haben, konzentrieren wir uns nun auf die spezifischen Daten im Zusammenhang mit unserer Forschungsfrage.
+```{r}
+options(repr.plot.width=10, repr.plot.height=6)
+
+ggplot(data=sleep_health_copy, aes(x=Age, y=Sleep.Duration)) +
+  geom_line(color='lightblue') +
+  ggtitle('Durchschnittliche Schlafdauer nach Alter') +
+  xlab('Alter') +
+  ylab('Schlafdauer in Std.')
+```
+
+Dies Diagramm zeigt, wie sich die durchschnittliche Schlafdauer mit dem Alter verändert. Dies ist relevant für die Forschungsfrage, da es Aufschluss darüber gibt, ob das Alter einen Einfluss auf die Schlafgewohnheiten hat.
+
+```{r}
+# Prozentsatz der Schlafstörungen pro BMI-Kategorie
+disorder_percentage_by_bmi <- sleep_health_copy %>%
+  group_by(BMI.Category, Sleep.Disorder) %>%
+  summarise(Count = n()) %>%
+  mutate(Total = sum(Count), Percentage = Count / Total * 100)
+
+ggplot(disorder_percentage_by_bmi, aes(x=BMI.Category, y=Percentage, fill=Sleep.Disorder)) +
+  geom_bar(stat="identity", position=position_dodge()) +
+  labs(title='Grouped Bar Chart of Sleep Disorders by BMI Category',
+       x='BMI Category',
+       y='Percentage per group') +
+  theme(axis.text.x = element_text(angle = 0, hjust = 0.5))
+```
+
+Diagramm visualisiert den Prozentsatz von Schlafstörungen nach BMI-Kategorie. Es hilft, den Zusammenhang zwischen dem BMI und dem Auftreten von Schlafstörungen zu verstehen, was für die Forschungsfrage relevant ist, um festzustellen, ob der BMI die Häufigkeit von Schlafstörungen beeinflusst.
+```{r}
+# Überlappende Dichtediagramme für Schlafdauer, gruppiert nach BMI-Kategorie
+ggplot(sleep_health_copy, aes(x = Sleep.Duration, fill = BMI.Category)) +
+  geom_density(alpha = 0.5) +
+  labs(title = "Überlappende Dichtediagramme für Schlafdauer nach BMI-Kategorie")
+```
+
+Darstellung in Form von überlappenden Dichtediagrammen zeigt die Verteilung der Schlafdauer in Abhängigkeit von verschiedenen BMI-Kategorien. Sie ermöglicht einen visuellen Vergleich der Schlafdauer zwischen den verschiedenen BMI-Gruppen und trägt zur Beantwortung der Forschungsfrage bei, ob es Unterschiede in der Schlafdauer zwischen den BMI-Kategorien gibt.
+
+```{r}
+# Mittelwerte berechnen
+average_data <- sleep_health_copy %>%
+  group_by(BMI.Category) %>%
+  summarise(Avg_Sleep_Duration = mean(Sleep.Duration, na.rm = TRUE), 
+            Avg_Sleep_Quality = mean(Quality.of.Sleep, na.rm = TRUE))
+
+# Gruppierte Balkendiagramme
+ggplot(average_data, aes(x = BMI.Category)) +
+  geom_bar(aes(y = Avg_Sleep_Duration), stat = "identity", position = position_dodge(), fill = "lightblue") +
+  geom_bar(aes(y = Avg_Sleep_Quality), stat = "identity", position = position_dodge(), fill = "red") +
+  labs(title = "Gruppierte Balkendiagramme für Schlafdauer und -qualität nach BMI-Kategorie")
+```
+
+Diese Diagramme zeigen die durchschnittliche Schlafdauer und Schlafqualität in verschiedenen BMI-Kategorien. Sie helfen bei der Beantwortung der Forschungsfrage, ob es Unterschiede in diesen Schlafparametern zwischen den BMI-Gruppen gibt.
+
+```{r}
+# Facetten-Scatterplots für körperliche Aktivität und Schlafvariablen, gruppiert nach BMI-Kategorie
+ggplot(sleep_health_copy, aes(x = Physical.Activity.Level, y = Sleep.Duration)) +
+  geom_point() +
+  facet_wrap(~ BMI.Category) +
+  labs(title = "Facetten-Scatterplots für körperliche Aktivität und Schlafdauer, gruppiert nach BMI-Kategorie")
+```
+
+Hier sind Facetten-Scatterplots, die die Beziehung zwischen körperlicher Aktivität und Schlafdauer in verschiedenen BMI-Kategorien darstellen. Diese helfen dabei zu prüfen, ob es Unterschiede in dieser Beziehung je nach BMI gibt.
+
+```{r}
+# Violin-Diagramme für Schlafdauer, gruppiert nach BMI-Kategorie
+ggplot(sleep_health_copy, aes(x = BMI.Category, y = Sleep.Duration, fill = BMI.Category)) +
+  geom_violin() +
+  labs(title = "Violin-Diagramme für Schlafdauer nach BMI-Kategorie")
+```
+
+Hier sind Violin-Diagramme, die die Verteilung der Schlafdauer in verschiedenen BMI-Kategorien zeigen. Dies ermöglicht einen Vergleich der Schlafdauer zwischen den BMI-Gruppen.
+<br> <br>
+
+Nachdem ich nun visuelle Darstellungen der Schlafparameter betrachtet habe, werde ich nun verschiedene statistische Tests durchführen, um die Zusammenhänge und Unterschiede genauer zu analysieren.
+
+### Hauptanalyse
+
+In diesem Abschnitt der Arbeit konzentrieren wir uns auf die Kernelemente unserer Studie, indem wir einen detaillierten Datensatz analysieren, der Informationen über körperliche Aktivität, BMI-Kategorie sowie Schlafqualität und -dauer umfasst. Unser Hauptziel ist es, fundierte und datenbasierte Antworten auf die zentrale Forschungsfrage zu finden: „Wie beeinflussen körperliche Aktivität und BMI-Kategorie die Schlafqualität und -dauer?“ Jeder Schritt in unserer Analyse ist darauf ausgelegt, die Zusammenhänge zwischen diesen Faktoren zu entschlüsseln undEinsichten in die Auswirkungen von Lebensstil und körperlicher Verfassung auf die Schlafgesundheit zu gewinnen.
+<br> <br>
+ICh habe eine Vielzahl von statistischen Tests durchgeführt, um die Beziehung zwischen körperlicher Aktivität, BMI-Kategorie und Schlafqualität/-dauer zu untersuchen. Jeder dieser Tests wurde ausgewählt, um spezifische Fragen zu beantworten und Erkenntnisse aus den vorliegenden Daten zu gewinnen. Angefangen mit der Korrelationsanalyse.
+
+**Korrelationsanalyse** 
+
+Die Korrelationsanalyse wurde eingesetzt, um die Stärke und Richtung der Beziehung zwischen verschiedenen Variablen zu untersuchen. In dem Fall wollte ich herausfinden, ob es eine signifikante Korrelation zwischen körperlicher Aktivität und Schlafparametern (Schlafdauer und -qualität) gibt. Dieser Test half mir dabei, festzustellen, ob es eine statistisch bedeutsame Verbindung zwischen diesen beiden Faktoren gibt und in welcher Richtung diese Verbindung verläuft.
+
+Darüber hinaus wurde die Signifikanz der Korrelationen anhand von Signifikanztests bewertet, um sicherzustellen, dass die beobachteten Zusammenhänge nicht auf zufällige Variationen zurückzuführen sind. Diese Analysen ermöglichten es, wichtige Einblicke in die Beziehungen zwischen körperlicher Aktivität und Schlafparametern zu gewinnen und trugen zur Beantwortung unserer Forschungsfrage bei.
+
+```{r}
+# BMI-Kategorie in numerische Werte
+sleep_health_copy$BMI.Category <- as.numeric(factor(sleep_health_copy$BMI.Category))
+
+# Berechnung der Pearson-Korrelation und deren Signifikanz für körperliche Aktivität und Schlafdauer
+correlation_activity_duration <- cor(sleep_health_copy$Physical.Activity.Level, sleep_health_copy$Sleep.Duration)
+
+# Signifikanztest für die Korrelation zwischen körperlicher Aktivität und Schlafdauer
+cor_test_activity_duration <- cor.test(sleep_health_copy$Physical.Activity.Level, sleep_health_copy$Sleep.Duration)
+
+# Berechnung der Pearson-Korrelation und deren Signifikanz für körperliche Aktivität und Schlafqualität
+correlation_activity_quality <- cor(sleep_health_copy$Physical.Activity.Level, sleep_health_copy$Quality.of.Sleep)
+
+# Signifikanztest für die Korrelation zwischen körperlicher Aktivität und Schlafqualität
+cor_test_activity_quality <- cor.test(sleep_health_copy$Physical.Activity.Level, sleep_health_copy$Quality.of.Sleep)
+
+# Berechnung der Pearson-Korrelation und deren Signifikanz für BMI-Kategorie und Schlafdauer
+correlation_bmi_duration <- cor(sleep_health_copy$BMI.Category, sleep_health_copy$Sleep.Duration)
+
+# Signifikanztest für die Korrelation zwischen BMI-Kategorie und Schlafdauer
+cor_test_bmi_duration <- cor.test(sleep_health_copy$BMI.Category, sleep_health_copy$Sleep.Duration)
+
+# Berechnung der Pearson-Korrelation und deren Signifikanz für BMI-Kategorie und Schlafqualität
+correlation_bmi_quality <- cor(sleep_health_copy$BMI.Category, sleep_health_copy$Quality.of.Sleep)
+
+# Signifikanztest für die Korrelation zwischen BMI-Kategorie und Schlafqualität
+cor_test_bmi_quality <- cor.test(sleep_health_copy$BMI.Category, sleep_health_copy$Quality.of.Sleep)
+
+# Ausgabe der Korrelationskoeffizienten
+print("Korrelation zwischen körperlicher Aktivität und Schlafdauer:")
+print(correlation_activity_duration)
+
+print("Signifikanztest für die Korrelation zwischen körperlicher Aktivität und Schlafdauer:")
+print(cor_test_activity_duration)
+
+print("Korrelation zwischen körperlicher Aktivität und Schlafqualität:")
+print(correlation_activity_quality)
+
+print("Signifikanztest für die Korrelation zwischen körperlicher Aktivität und Schlafqualität:")
+print(cor_test_activity_quality)
+
+print("Korrelation zwischen BMI-Kategorie und Schlafdauer:")
+print(correlation_bmi_duration)
+
+print("Signifikanztest für die Korrelation zwischen BMI-Kategorie und Schlafdauer:")
+print(cor_test_bmi_duration)
+
+print("Korrelation zwischen BMI-Kategorie und Schlafqualität:")
+print(correlation_bmi_quality)
+
+print("Signifikanztest für die Korrelation zwischen BMI-Kategorie und Schlafqualität:")
+print(cor_test_bmi_quality)
+
+
+```
+
+- **Körperliche Aktivität und Schlafdauer**: Es besteht ein moderater positiver Zusammenhang (Korrelationskoeffizient: 0.212). Das bedeutet, dass Personen, die aktiver sind, tendenziell länger schlafen.
+- **Körperliche Aktivität und Schlafqualität**: Es besteht ein moderater positiver Zusammenhang (Korrelationskoeffizient: 0.193). Aktivere Menschen neigen dazu, eine bessere Schlafqualität zu haben.
+- **BMI-Kategorie und Schlafdauer**: Es besteht ein mittelstarker negativer Zusammenhang (Korrelationskoeffizient: -0.376). Ein höherer BMI ist mit kürzerer Schlafdauer verbunden.
+- **BMI-Kategorie und Schlafqualität**: Es besteht ein moderater negativer Zusammenhang (Korrelationskoeffizient: -0.313). Ein höherer BMI ist mit schlechterer Schlafqualität verbunden.
+<br>
+
+Diese Ergebnisse deuten darauf hin, dass körperliche Aktivität eine positive Auswirkung auf die Schlafqualität und -dauer hat, während ein höherer BMI negativ mit diesen Schlafvariablen korreliert ist.
+
+**ANOVA** 
+
+ANOVA wurde genutzt, um signifikante Unterschiede in den Durchschnittswerten von Schlafparametern zwischen verschiedenen Gruppen zu identifizieren. Insbesondere wollten ichg wissen, ob es signifikante Preisunterschiede in Bezug auf die BMI-Kategorie gibt. Dieser Test ermöglicht mir festzustellen, ob der BMI einen Einfluss auf die Schlafparameter hat und ob bestimmte Kategorien signifikant unterschiedlich sind.
+
+```{r}
+# ANOVA für Schlafdauer in Bezug auf BMI-Kategorie
+anova_sleep_duration <- aov(sleep_health_copy$Sleep.Duration ~ sleep_health_copy$BMI.Category)
+
+# ANOVA für Schlafqualität in Bezug auf BMI-Kategorie
+anova_sleep_quality <- aov(sleep_health_copy$Quality.of.Sleep ~ sleep_health_copy$BMI.Category)
+
+# Ausgabe der ANOVA-Ergebnisse
+print("ANOVA für Schlafdauer in Bezug auf BMI-Kategorie:")
+summary(anova_sleep_duration)
+
+print("ANOVA für Schlafqualität in Bezug auf BMI-Kategorie:")
+summary(anova_sleep_quality)
+
+```
+
+- **Schlafdauer**: Signifikante Unterschiede zwischen den BMI-Kategorien (P-Wert < 0.001). Personen mit unterschiedlichen BMI-Kategorien haben signifikant unterschiedliche Schlafdauern.
+- **Schlafqualität**: Signifikante Unterschiede zwischen den BMI-Kategorien (P-Wert < 0.001). Der BMI beeinflusst signifikant die Schlafqualität.
+
+Diese Ergebnisse zeigen, dass der BMI einen erheblichen Einfluss auf die Schlafparameter hat. Personen mit unterschiedlichen BMI-Kategorien haben signifikant unterschiedliche Schlafqualitäten und -dauern
+
+**Kruskal-Wallis-Test** 
+
+Der Kruskal-Wallis-Test ist da um Unterschiede zwischen den Gruppen hinsichtlich der Schlafparameter zu untersuchen, wenn die Daten nicht normalverteilt sind. Ich nutzte diesen Test, um festzustellen, ob es signifikante Unterschiede in der Schlafdauer und -qualität zwischen verschiedenen Niveaus der körperlichen Aktivität gab. 
+
+```{r}
+# Kruskal-Wallis-Test für Schlafdauer in Bezug auf körperliche Aktivität
+kruskal_sleep_duration <- kruskal.test(sleep_health_copy$Sleep.Duration ~ sleep_health_copy$Physical.Activity.Level)
+
+# Kruskal-Wallis-Test für Schlafqualität in Bezug auf körperliche Aktivität
+kruskal_sleep_quality <- kruskal.test(sleep_health_copy$Quality.of.Sleep ~ sleep_health_copy$Physical.Activity.Level)
+
+# Ausgabe der Kruskal-Wallis-Test-Ergebnisse
+print("Kruskal-Wallis-Test für Schlafdauer in Bezug auf körperliche Aktivität:")
+print(kruskal_sleep_duration)
+
+print("Kruskal-Wallis-Test für Schlafqualität in Bezug auf körperliche Aktivität:")
+print(kruskal_sleep_quality)
+
+```
+- **Schlafdauer**: Signifikante Unterschiede zwischen den Aktivitätsniveaus (P-Wert < 0.001). Verschiedene Aktivitätsniveaus sind mit signifikant unterschiedlichen Schlafdauern verbunden.
+- **Schlafqualität**: Signifikante Unterschiede zwischen den Aktivitätsniveaus (P-Wert = 0.005). Die Schlafqualität variiert signifikant je nach Aktivitätsniveau.
+
+Dies zeigt, dass die Intensität der körperlichen Aktivität einen signifikanten Einfluss auf die Schlafparameter hat. Unterschiedliche Niveaus der Aktivität sind mit unterschiedlichen Schlafqualitäten und -dauern verbunden.
+**Chi-Quadrat-Test** 
+
+Der Chi-Quadrat-Test wurde verwendet, um die Beziehung zwischen einer kategorialen Variable (BMI-Kategorie) und dem Vorhandensein von Schlafstörungen zu untersuchen. Ich wollte so herausfinden, ob es eine signifikante Assoziation zwischen der BMI-Kategorie und dem Auftreten von Schlafstörungen gibt. Dieser Test half mir, die Bedeutung des BMI bei der Vorhersage von Schlafstörungen zu ermitteln.
+
+```{r}
+# Chi-Quadrat-Test zwischen BMI-Kategorie und Schlafstörungen
+chi_square_test <- chisq.test(table(sleep_health_copy$BMI.Category, sleep_health_copy$Sleep.Disorder))
+
+# Ausgabe des Chi-Quadrat-Test-Ergebnisses
+print("Chi-Quadrat-Test zwischen BMI-Kategorie und Schlafstörungen:")
+print(chi_square_test)
+
+```
+-Sehr signifikante Beziehung zwischen BMI-Kategorie und Schlafstörungen (P-Wert < 0.001). Die BMI-Kategorie ist ein entscheidender Faktor für das Risiko von Schlafstörungen.
+
+Dies unterstreicht die Bedeutung des BMI als Prädiktor für Schlafstörungen. Personen in höheren BMI-Kategorien haben ein signifikant erhöhtes Risiko für Schlafstörungen.
+<br> <br>
+
+Zusammengefasst zeigen diese Ergebnisse, dass sowohl die körperliche Aktivität als auch der BMI signifikante Faktoren für Schlafdauer und -qualität sind. Während eine höhere körperliche Aktivität mit besserem Schlaf assoziiert ist, scheint ein höherer BMI mit schlechterem Schlaf zusammenzuhängen.
+
+## Fazit
+
+In Rückbesinnung auf die Einleitung der Belegarbeit und die darauf aufbauenden Forschungsfrage können wir sagen, dass wir interessante Einsichten in die Faktoren gewonnen haben, die die Schlafqualität und -dauer beeinflussen. 
+
+Wir haben herausgefunden, dass körperliche Aktivität und BMI-Kategorie wichtige Faktoren für die Schlafgesundheit sind. Eine höhere körperliche Aktivität ist mit längerer Schlafdauer und besserer Schlafqualität verbunden, während ein höherer BMI tendenziell mit kürzerer Schlafdauer und schlechterer Schlafqualität einhergeht. Darüber hinaus zeigen unsere Ergebnisse, dass verschiedene Niveaus der körperlichen Aktivität und unterschiedliche BMI-Kategorien signifikante Auswirkungen auf die Schlafvariablen haben.
+
+Natürlich ist keine Einzeluntersuchung perfekt und unsere Analyse hat ihre Grenzen. Wir haben lediglich einen Datensatz verwendet und einige potenzielle Einflussfaktoren auf den Schlaf, die nicht verfügbar waren oder nicht in den Umfang passten, nicht berücksichtigt. Die Integration weiterer Variablen, wie die Qualität der Schlafumgebung oder der Lebensstilfaktoren oder andere Elemente aus dem Datensatz, könnte zukünftige Analysen deutlich verbessern.
+
+Für zukünftige Untersuchungen wäre es interessant, die Dynamik der Schlafgesundheit über einen längeren Zeitraum zu verfolgen und zusätzliche Faktoren wie Stress oder Ernährung zu untersuchen. Ein konkreter Verbesserungsvorschlag besteht darin, maschinelles Lernen und künstliche Intelligenz einzusetzen, um tiefere  Einsichten in die Zusammenhänge zwischen Schlaf, körperlicher Gesundheit und Lebensstil zu erhalten
+
+Insgesamt bietet unsere Analyse einen aufschlussreichen Einblick in die Faktoren, die die Schlafqualität und -dauer beeinflussen. Sie legt ein solides Fundament für weiterführende Untersuchungen und bietet wertvolle Informationen für die Förderung einer gesunden Schlafpraxis und die Entwicklung von praxisnahen Strategien zur Verbesserung der Schlafgesundheit.
+
+## Literaturverzeichnis
+
+* Ekstedt, M., Nyberg, G., Ingre, M., Ekblom, Ö., & Marcus, C. (2013). Sleep, physical activity and BMI in six to ten-year-old children measured by accelerometry: a cross-sectional study. The International Journal of Behavioral Nutrition and Physical Activity.
+
+* Chaput, J., Lambert, M., Gray‐Donald, K., McGrath, J., Tremblay, M., O'Loughlin, J., & Tremblay, A. (2011). Short sleep duration is independently associated with overweight and obesity in Quebec children. Canadian Journal of Public Health, 102(5). 
+
+* Carneiro-Barrera, A., Amaro-Gahete, F., Acosta, F., & Ruiz, J. (2020). Body Composition Impact on Sleep in Young Adults: The Mediating Role of Sedentariness, Physical Activity, and Diet. Journal of Clinical Medicine. 
+
+* Pilcher, J., Erikson, D. N., & Yochum, C. A. (2020). Fighting the Freshman Fifteen: Sleep, Exercise, and BMI in College Students. American Journal of Health Promotion, 35.
